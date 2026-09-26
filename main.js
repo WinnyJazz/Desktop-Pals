@@ -1,5 +1,5 @@
 // destructuring assignment.
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 
 /* const electron = require('electron');
 
@@ -16,5 +16,6 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+    Menu.setApplicationMenu(null);
     createWindow();
 });
