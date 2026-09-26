@@ -15,6 +15,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .welcome-button {
     height: 150px;
     width: 450px;
@@ -22,7 +23,7 @@ body {
     background-color: #DEF3FF;
     border: 10px solid white;
     transition: 300ms ease-in;
-
+    z-index: 1;
 }
 
 .welcome-button:hover {
@@ -34,6 +35,10 @@ body {
     cursor: pointer;
     transition: 300ms ease-in;
 
+}
+
+.welcome:has(.welcome-button:hover) .welcome-cat img {
+    transform: scale(1.08);
 }
 
 .welcome-button h2 {
@@ -48,6 +53,25 @@ body {
     font-size: 30px;
     font-family: "Tiny5";
     color: #366594;
+}
+
+.welcome-cat {
+    position: absolute;
+    z-index: 2;
+    margin-top: -280px;
+}
+
+.welcome-cat img {
+    margin-top: 60px;
+    width: 200px;
+    transition: transform 300ms ease-in;
+}
+
+.welcome-cat img.cat2 {
+    margin-top: 8px;
+    width: 380px;
+    align-items: center;
+    transition: transform 300ms ease-in;
 }
 
 
