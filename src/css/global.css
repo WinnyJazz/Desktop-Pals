@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navbar {
+    width: 100%;
+    height: 90px;
+    background-color: #81BCF8;
+    display: flex;
+    align-items: center;
+    border: 10px solid white;
+   
+}
+
+.navbar a {
+    font-size: 20px;
+    font-family: "Tiny5";
+    padding: 18px 30px 20px 30px;
+    border: 8px solid white;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #366594;
+    margin-top: 40px;
+    background-color: #DEF3FF;
+    transition: 300ms ease-in;
+}
+
+.navbar a:hover {
+    border-radius: 20px;
+    color: white;
+    margin-top: 30px;
+    background-color: #afd0ee;
+    transition: 300ms ease-in;
+}
