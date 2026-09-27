@@ -17,3 +17,10 @@ setInterval(function() {
     }
 
 }, 800);
+
+const button = document.getElementById("welcome-button");
+
+button.addEventListener("click", () => {
+    window.location.href = "pals.html"
+})
+
