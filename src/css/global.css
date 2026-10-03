@@ -1,3 +1,11 @@
+:root {
+    --blue: #81BCF8;
+    --dark-blue: #366594;
+    --light-blue: #DEF3FF;
+    --hover-blue: #afd0ee;
+    --white: white;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,10 +15,10 @@
 .navbar {
     width: 100%;
     height: 90px;
-    background-color: #81BCF8;
+    background-color: var(--blue);
     display: flex;
     align-items: center;
-    border: 10px solid white;
+    border: 10px solid var(--white);
     z-index: 1;
 }
 
@@ -18,19 +26,19 @@
     font-size: 20px;
     font-family: "Tiny5";
     padding: 18px 30px 20px 30px;
-    border: 8px solid white;
+    border: 8px solid var(--white);
     border-radius: 20px;
     text-decoration: none;
-    color: #366594;
+    color: var(--dark-blue);
     margin-top: 40px;
-    background-color: #DEF3FF;
+    background-color: var(--light-blue);
     transition: 300ms ease-in;
 }
 
 .navbar a:hover {
     border-radius: 20px;
-    color: white;
+    color: var(--white);
     margin-top: 30px;
-    background-color: #afd0ee;
+    background-color: var(--hover-blue);
     transition: 300ms ease-in;
 }

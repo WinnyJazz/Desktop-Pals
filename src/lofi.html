@@ -3,15 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lofi</title>
     <link href="https://fonts.googleapis.com/css2?family=Caacupe+One&family=Tiny5&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"rel="stylesheet">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/lofi.css">
-    <title>Lofi</title>
 </head>
-<body>
-    <div id="navbar"></div>
 
-    <script src="js/global.js"></script>
-    
+<body>
+
+    <button class="menu-button" id="menuButton">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <aside class="sidebar" id="sidebar">
+        <button class="close-button" id="closeButton">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <button class="lofi-button">Lofi 1</button>
+        <button class="lofi-button">Lofi 2</button>
+        <button class="lofi-button">Lofi 3</button>
+        <button class="lofi-button">Lofi 4</button>
+        <button class="lofi-button">Lofi 5</button>
+    </aside>
+
+    <main class="container">
+
+        <div class="audio-player">
+
+            <div class="track-info">
+                <!-- <div class="track-image">
+                    <img src="Assets/lofi1.jpg" alt="Lofi cover">
+                </div> -->
+
+                <div class="track-details">
+                    <div class="marquee">
+                        <span>Pokemon Lofi Music</span>
+                    </div>
+
+                    <p class="track-artist">
+                        Pokemon Lofi
+                    </p>
+                </div>
+            </div>
+
+            <div class="progress-bar" id="progressBar">
+                <div class="progress" id="progress"></div>
+                <div class="progress-handle" id="progressHandle"></div>
+            </div>
+
+            <div class="time-info">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+
+            <div class="controls">
+
+                <button class="control-button">
+                    <i class="fa-solid fa-backward-step"></i>
+                </button>
+
+                <button class="control-button play-button" id="playButton">
+                    <i class="fa-solid fa-play" id="playIcon"></i>
+                </button>
+
+                <button class="control-button">
+                    <i class="fa-solid fa-forward-step"></i>
+                </button>
+
+            </div>
+
+            <div class="volume-control">
+                <i class="fa-solid fa-volume-low"></i>
+
+                <div class="volume-slider" id="volumeSlider">
+                    <div class="volume-level" id="volumeLevel"></div>
+                </div>
+
+                <i class="fa-solid fa-volume-high"></i>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="js/lofi.js"></script>
+
 </body>
 </html>
+
