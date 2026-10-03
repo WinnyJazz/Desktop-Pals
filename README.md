@@ -1,7 +1,7 @@
 # Desktop Pals
 
 Desktop Pals is a desktop companion application built with Electron. It is designed to provide a small companion on your desktop while you work, study, or relax.
-
+⚠️currently underconstruction tehee
 ## Features
 
 * Interactive desktop pet
