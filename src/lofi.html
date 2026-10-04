@@ -20,13 +20,16 @@
         <button class="close-button" id="closeButton">
             <i class="fa-solid fa-xmark"></i>
         </button>
-
-        <button class="lofi-button">Lofi 1</button>
-        <button class="lofi-button">Lofi 2</button>
-        <button class="lofi-button">Lofi 3</button>
-        <button class="lofi-button">Lofi 4</button>
-        <button class="lofi-button">Lofi 5</button>
+        <div class="button-container">
+            <button class="lofi-button" data-index="0">Pokemon Lofi</button>
+            <button class="lofi-button" data-index="1">Persona Lofi</button>
+            <button class="lofi-button" data-index="2">Hillsong Lofi</button>
+            <button class="lofi-button" data-index="3">Zelda Lofi</button>
+            <button class="lofi-button" data-index="4">LOCK IN PRO MAX</button>
+        </div>
     </aside>
+
+    <div id="youtubePlayer"></div>
 
     <main class="container">
 
@@ -39,12 +42,8 @@
 
                 <div class="track-details">
                     <div class="marquee">
-                        <span>Pokemon Lofi Music</span>
+                        <span id="trackTitle">Pokemon Lofi</span>
                     </div>
-
-                    <p class="track-artist">
-                        Pokemon Lofi
-                    </p>
                 </div>
             </div>
 
@@ -60,7 +59,7 @@
 
             <div class="controls">
 
-                <button class="control-button">
+                <button class="control-button" id="previousButton">
                     <i class="fa-solid fa-backward-step"></i>
                 </button>
 
@@ -68,7 +67,7 @@
                     <i class="fa-solid fa-play" id="playIcon"></i>
                 </button>
 
-                <button class="control-button">
+                <button class="control-button" id="nextButton">
                     <i class="fa-solid fa-forward-step"></i>
                 </button>
 
@@ -88,6 +87,7 @@
 
     </main>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="js/lofi.js"></script>
 
 </body>
