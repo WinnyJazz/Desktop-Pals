@@ -56,9 +56,10 @@ window.onYouTubeIframeAPIReady = function () {
         height: "180",
         width: "320",
         videoId: lofiTracks[0].youtubeId,
-        playerVars: {
+       playerVars: {
             playsinline: 1,
-            controls: 1
+            controls: 1,
+            origin: "https://www.youtube.com"
         },
         events: {
             onReady: onPlayerReady,
