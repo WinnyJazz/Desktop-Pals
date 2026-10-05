@@ -2,11 +2,46 @@ let player;
 let playerReady = false;
 let currentTrack = 0;
 
+// Volume disimpan sendiri, jangan bergantung ke player.getVolume()
+let currentVolume = 70;
+let isMutedByUser = false;
+let errorCount = 0;
+
 const tag = document.createElement("script");
 tag.src = "https://www.youtube.com/iframe_api";
 
 const firstScriptTag = document.getElementsByTagName("script")[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Bisa paste link YouTube utuh atau ID 11 karakter, otomatis dibersihkan
+function extractVideoId(input) {
+    const value = String(input).trim();
+
+    if (/^[\w-]{11}$/.test(value)) {
+        return value;
+    }
+
+    try {
+        const url = new URL(value);
+
+        if (url.hostname.includes("youtu.be")) {
+            return url.pathname.slice(1, 12);
+        }
+
+        if (url.searchParams.get("v")) {
+            return url.searchParams.get("v").slice(0, 11);
+        }
+
+        const match = url.pathname.match(/\/(embed|shorts|live)\/([\w-]{11})/);
+        if (match) {
+            return match[2];
+        }
+    } catch (error) {
+        // bukan URL, lanjut ke fallback
+    }
+
+    return value.slice(0, 11);
+}
 
 const lofiTracks = [
     {
@@ -32,9 +67,12 @@ const lofiTracks = [
     {
         title: "LOCK IN PRO MAX",
         artist: "LOCK IN PRO MAX",
-        youtubeId: "0UN_HbOTTcI"
+        youtubeId: "Q4z5Wonfou8"
     }
-];
+].map((track) => ({
+    ...track,
+    youtubeId: extractVideoId(track.youtubeId)
+}));
 
 const lofiButtons = document.querySelectorAll(".lofi-button");
 const trackTitle = document.getElementById("trackTitle");
@@ -62,54 +100,92 @@ const durationElement = document.getElementById("duration");
 window.onYouTubeIframeAPIReady = function () {
     console.log("YouTube API berhasil dipanggil");
 
+    const playerVars = {
+        playsinline: 1,
+        controls: 0,
+        disablekb: 1,
+        modestbranding: 1,
+        rel: 0
+    };
+
+    if (window.location.protocol.startsWith("http")) {
+        playerVars.origin = window.location.origin;
+    }
+
     player = new YT.Player("youtubePlayer", {
         height: "180",
         width: "320",
         videoId: lofiTracks[currentTrack].youtubeId,
-
-        playerVars: {
-            playsinline: 1,
-            controls: 0,
-            disablekb: 1,
-            modestbranding: 1,
-            rel: 0,
-            origin: window.location.origin
-        },
+        playerVars: playerVars,
 
         events: {
             onReady: onPlayerReady,
-            onStateChange: onPlayerStateChange
+            onStateChange: onPlayerStateChange,
+            onError: onPlayerError
         }
     });
 };
+
+function onPlayerError(event) {
+    console.log("YOUTUBE ERROR CODE:", event.data, "| track:", lofiTracks[currentTrack].title);
+
+    errorCount++;
+
+    // Skip ke lagu berikutnya, tapi stop kalau semua lagu error (biar ga loop terus)
+    if (errorCount < lofiTracks.length) {
+        setTimeout(nextTrack, 500);
+    } else {
+        console.log("Semua track error, cek ID video-nya");
+    }
+}
 
 function onPlayerReady(event) {
     console.log("YouTube Player sudah READY");
 
     playerReady = true;
 
-    event.target.unMute();
-    event.target.setVolume(70);
+    event.target.setVolume(currentVolume);
 
     updateTrackInfo();
-    updateVolumeUI(70);
+    updateVolumeUI(currentVolume);
     updateTime();
+}
+
+function applyVolume() {
+    if (!playerReady || !player) {
+        return;
+    }
+
+    if (isMutedByUser || currentVolume === 0) {
+        player.mute();
+    } else {
+        player.unMute();
+        player.setVolume(currentVolume);
+    }
 }
 
 function onPlayerStateChange(event) {
     console.log("Player state:", event.data);
 
     if (event.data === YT.PlayerState.PLAYING) {
+        console.log("VIDEO PLAYING");
+
+        errorCount = 0;
+        applyVolume();
+
         playIcon.classList.remove("fa-play");
         playIcon.classList.add("fa-pause");
     }
 
-    else if (event.data === YT.PlayerState.PAUSED) {
+    if (event.data === YT.PlayerState.PAUSED) {
+        console.log("VIDEO PAUSED");
+
         playIcon.classList.remove("fa-pause");
         playIcon.classList.add("fa-play");
     }
 
-    else if (event.data === YT.PlayerState.ENDED) {
+    if (event.data === YT.PlayerState.ENDED) {
+        console.log("VIDEO ENDED");
         nextTrack();
     }
 }
@@ -135,7 +211,7 @@ playButton.addEventListener("click", () => {
     if (playerState === YT.PlayerState.PLAYING) {
         player.pauseVideo();
     } else {
-        player.unMute();
+        applyVolume();
         player.playVideo();
     }
 });
@@ -150,15 +226,12 @@ function loadTrack(index) {
 
     const track = lofiTracks[currentTrack];
 
-    trackTitle.textContent = track.title;
-
     player.loadVideoById({
         videoId: track.youtubeId,
         startSeconds: 0
     });
 
-    player.unMute();
-    player.setVolume(getCurrentVolume());
+    applyVolume();
 
     updateTrackInfo();
     resetProgress();
@@ -217,14 +290,6 @@ previousButton.addEventListener("click", () => {
     previousTrack();
 });
 
-function getCurrentVolume() {
-    if (!playerReady || !player) {
-        return 70;
-    }
-
-    return player.isMuted() ? 0 : player.getVolume();
-}
-
 function updateVolumeUI(volume) {
     if (!volumeLevel) {
         return;
@@ -246,13 +311,10 @@ volumeSlider.addEventListener("click", (event) => {
 
     percentage = Math.max(0, Math.min(100, percentage));
 
-    if (percentage === 0) {
-        player.mute();
-    } else {
-        player.unMute();
-        player.setVolume(percentage);
-    }
+    currentVolume = percentage;
+    isMutedByUser = percentage === 0;
 
+    applyVolume();
     updateVolumeUI(percentage);
 });
 
