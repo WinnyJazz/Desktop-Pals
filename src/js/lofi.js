@@ -192,11 +192,13 @@ function onPlayerStateChange(event) {
 
 menuButton.addEventListener("click", () => {
     sidebar.classList.add("active");
+    document.body.classList.add("sidebar-open");
     menuButton.style.display = "none";
 });
 
 closeButton.addEventListener("click", () => {
     sidebar.classList.remove("active");
+    document.body.classList.remove("sidebar-open");
     menuButton.style.display = "block";
 });
 

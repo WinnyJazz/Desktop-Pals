@@ -132,14 +132,24 @@ body {
 
 
 .audio-player {
+    position: fixed;
+    left: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
     width: 32rem;
     padding: 1.5rem;
     background-color: var(--light-blue);
     border: 0.5rem solid var(--white);
     border-radius: 1.5rem;
     box-shadow: 0 0.6rem 1.8rem rgba(0, 0, 0, 0.15);
+    transition: all 300ms ease;
+    z-index: 100;
 }
 
+body.sidebar-open .audio-player {
+    left: calc(17rem + (100vw - 17rem) / 2 - 0.5rem);
+    transform: translate(-50%, 50%) scale(0.75);
+}
 
 .track-info {
     display: flex;
