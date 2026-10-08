@@ -171,7 +171,6 @@ function onPlayerStateChange(event) {
         console.log("VIDEO PLAYING");
 
         errorCount = 0;
-        applyVolume();
 
         playIcon.classList.remove("fa-play");
         playIcon.classList.add("fa-pause");
@@ -213,10 +212,10 @@ playButton.addEventListener("click", () => {
     if (playerState === YT.PlayerState.PLAYING) {
         player.pauseVideo();
     } else {
-        applyVolume();
         player.playVideo();
     }
 });
+
 
 function loadTrack(index) {
     if (!playerReady || !player) {
