@@ -3,48 +3,100 @@ const secondsDisplay = document.getElementById("seconds");
 
 const startBtn = document.getElementById("startBtn");
 const pauseBtn = document.getElementById("pauseBtn");
+const resetBtn = document.getElementById("resetBtn");
 
-let totalSeconds = 25 * 60;
+const defaultMinutes = 25;
+
+let totalSeconds = defaultMinutes * 60;
 let timer = null;
 let isRunning = false;
 
-
 minutesDisplay.addEventListener("click", function () {
 
-    // Jangan ubah waktu ketika timer sedang berjalan
+    // Tidak bisa edit saat timer berjalan
     if (isRunning) {
         return;
     }
 
-    const currentMinutes = Math.floor(totalSeconds / 60);
+    // Buat input
+    const input = document.createElement("input");
 
-    const newMinutes = prompt(
-        "Mau berapa menit?",
-        currentMinutes
-    );
+    input.type = "number";
+    input.min = "1";
+    input.value = Math.floor(totalSeconds / 60);
 
-    // Kalau user menekan Cancel
-    if (newMinutes === null) {
-        return;
+    // Bootstrap styling
+    input.className = "form-control text-center mx-auto";
+
+    // Atur ukuran input
+    input.style.width = "150px";
+    input.style.fontSize = "2.5rem";
+
+    // Ganti h3 dengan input
+    minutesDisplay.replaceWith(input);
+
+    // Langsung fokus ke input
+    input.focus();
+
+    // Select angka yang ada
+    input.select();
+
+    function saveTime() {
+
+        const minutes = parseInt(input.value);
+
+        // Validasi
+        if (isNaN(minutes) || minutes < 1) {
+
+            alert("Masukkan angka menit yang valid!");
+
+            input.focus();
+
+            return;
+        }
+
+        totalSeconds = minutes * 60;
+
+        // Kembalikan input menjadi h3
+        input.replaceWith(minutesDisplay);
+
+        updateDisplay();
     }
 
-    const minutes = parseInt(newMinutes);
 
-    // Cek apakah input valid
-    if (isNaN(minutes) || minutes < 1) {
-        alert("Masukkan angka menit yang valid!");
-        return;
-    }
+    // Enter untuk menyimpan
+    input.addEventListener("keydown", function (event) {
 
-    totalSeconds = minutes * 60;
+        if (event.key === "Enter") {
+            saveTime();
+        }
 
-    updateDisplay();
+        // Escape untuk membatalkan
+        if (event.key === "Escape") {
+            input.replaceWith(minutesDisplay);
+            updateDisplay();
+        }
+    });
+
+
+    // Klik di luar input untuk menyimpan
+    input.addEventListener("blur", function () {
+
+        saveTime();
+
+    });
+
 });
 
 startBtn.addEventListener("click", function () {
 
-    // Jangan membuat timer baru kalau sudah berjalan
+    // Jangan start kalau sudah berjalan
     if (isRunning) {
+        return;
+    }
+
+    // Jangan start kalau timer sudah habis
+    if (totalSeconds <= 0) {
         return;
     }
 
@@ -55,6 +107,7 @@ startBtn.addEventListener("click", function () {
         if (totalSeconds <= 0) {
 
             clearInterval(timer);
+
             isRunning = false;
 
             alert("Time's up!");
@@ -67,6 +120,7 @@ startBtn.addEventListener("click", function () {
         updateDisplay();
 
     }, 1000);
+
 });
 
 
@@ -79,14 +133,47 @@ pauseBtn.addEventListener("click", function () {
     clearInterval(timer);
 
     isRunning = false;
+
+});
+
+
+resetBtn.addEventListener("click", function () {
+
+    // Hentikan timer
+    clearInterval(timer);
+
+    // Timer tidak berjalan
+    isRunning = false;
+
+    // Kembali ke 25 menit
+    totalSeconds = defaultMinutes * 60;
+
+    // Update tampilan
+    updateDisplay();
+
 });
 
 
 function updateDisplay() {
 
-    const minutes = Math.floor(totalSeconds / 60);
+    const hours = Math.floor(totalSeconds / 3600);
+
+    const minutes = Math.floor(
+        (totalSeconds % 3600) / 60
+    );
+
     const seconds = totalSeconds % 60;
 
-    minutesDisplay.textContent = String(minutes).padStart(2, "0");
-    secondsDisplay.textContent = String(seconds).padStart(2, "0");
+
+    document.getElementById("hours").textContent =
+        String(hours).padStart(2, "0");
+
+    minutesDisplay.textContent =
+        String(minutes).padStart(2, "0");
+
+    secondsDisplay.textContent =
+        String(seconds).padStart(2, "0");
 }
+
+
+updateDisplay();
