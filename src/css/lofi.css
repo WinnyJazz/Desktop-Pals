@@ -35,7 +35,7 @@ body {
 .menu-button {
     position: fixed;
     top: 1.25rem;
-    left: 1.25rem;
+    right: 1.25rem;
     width: 3.25rem;
     height: 3.25rem;
     border: 0.3rem solid var(--white);
@@ -59,7 +59,7 @@ body {
     display: none;
     position: fixed;
     top: 0;
-    left: 0;
+    right: 0;
     width: 17rem;
     height: 100vh;
     padding: 2rem 1.25rem;
@@ -69,6 +69,7 @@ body {
     align-items: center;
     z-index: 999;
     overflow: hidden;
+    border: solid 10px white;
 }
 
 .sidebar.active {
@@ -134,7 +135,7 @@ body {
 .audio-player {
     position: fixed;
     left: 50%;
-    bottom: 50%;
+    bottom: 45%;
     transform: translate(-50%, 50%);
     width: 32rem;
     padding: 1.5rem;
@@ -147,7 +148,7 @@ body {
 }
 
 body.sidebar-open .audio-player {
-    left: calc(17rem + (100vw - 17rem) / 2 - 0.5rem);
+    left: calc((100vw - 17rem) / 2);
     transform: translate(-50%, 50%) scale(0.75);
 }
 
