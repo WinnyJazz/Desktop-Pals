@@ -12,7 +12,7 @@
     box-sizing: border-box;
 }
 
-.navbar {
+.custom-navbar {
     width: 100%;
     height: 90px;
     background-color: var(--blue);
@@ -22,7 +22,7 @@
     z-index: 1;
 }
 
-.navbar a {
+.custom-navbar a {
     font-size: 20px;
     font-family: "Tiny5";
     padding: 18px 30px 20px 30px;
@@ -35,7 +35,7 @@
     transition: 300ms ease-in;
 }
 
-.navbar a:hover {
+.custom-navbar a:hover {
     border-radius: 20px;
     color: var(--white);
     margin-top: 30px;
