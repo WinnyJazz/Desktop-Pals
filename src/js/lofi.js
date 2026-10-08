@@ -251,7 +251,6 @@ lofiButtons.forEach((button) => {
 
         loadTrack(index);
 
-        sidebar.classList.remove("active");
         menuButton.style.display = "block";
     });
 });
